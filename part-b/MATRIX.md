@@ -4,8 +4,8 @@
 
 |                   | Low Effort         | High Effort        |
 |-------------------|--------------------|--------------------|
-| **High Impact**   | - Mobile Core Actions Hub | - Tatkal Booking Queue Management<br>- Interactive Refund Timeline Tracker |
-| **Low Impact**    | - Persistent Search Filters<br>- Form Autosave & Keep-Alive<br>- Sticky Passenger Preferences | *(None)* |
+| **High Impact**   | - Mobile Core Actions Hub<br>- Persistent Search Filters | - Tatkal Booking Queue Management<br>- Interactive Refund Timeline Tracker |
+| **Low Impact**    | - Form Autosave & Keep-Alive<br>- Sticky Passenger Preferences | *(None)* |
 
 ## How I Scored Each Dimension
 
@@ -31,10 +31,10 @@ I scored Effort based on:
 * **Effort (5/5)**: Implementing this requires setting up new in-memory infrastructure (Redis cluster) and WebSocket gateways to handle real-time queues, which poses high risks of breaking current login flows.
 * **Placement**: Being High Impact / High Effort, this is a major strategic project that must be carefully planned and executed as a primary engineering goal.
 
-### URL-Synced Persistent Search Filters — Low Impact / Low Effort
-* **Impact (2/5)**: While persistent filters improve daily search convenience for millions of visitors, losing filters is a minor annoyance rather than a booking-blocking failure.
-* **Effort (2/5)**: The solution is client-side, requiring only Angular router state mapping without any database modifications or external API integrations.
-* **Placement**: Being Low Impact / Low Effort, this is a quick win that can be easily shipped to polish the user experience.
+### URL-Synced Persistent Search Filters — High Impact / Low Effort
+* **Impact (4/5)**: Peer review highlighted that search filters are used in over 70% of user journeys, and resetting them causes repeated queries to train availability endpoints, driving up backend API load and server costs.
+* **Effort (2/5)**: The solution is completely client-side, requiring only Angular router state mapping without any database modifications or external API integrations.
+* **Placement**: Reclassified as High Impact / Low Effort, this feature is elevated to a high-priority "quick win" that should be tackled early in the sprint.
 
 ### Sticky Passenger Preferences — Low Impact / Low Effort
 * **Impact (3/5)**: This issue primarily affects a specific segment of travelers (families and senior citizens) under high-occupancy conditions, meaning it has a lower frequency than page crashes.
@@ -61,8 +61,8 @@ I scored Effort based on:
 ## Recommended Sprint Order
 
 1. **Simplified Mobile Core Actions Hub**: High user impact on navigation with very low engineering effort; delivers immediate visual value.
-2. **Client-Side Form Autosave & Session Keep-Alive**: Prevents form data loss with minimal client-side changes, improving form completion rates before tackling core infrastructure.
-3. **URL-Synced Persistent Search Filters**: A quick, client-side routing enhancement to stabilize search list usability.
+2. **URL-Synced Persistent Search Filters**: Scored as High Impact / Low Effort; resolved early to reduce server-side search load caused by redundant query re-runs.
+3. **Client-Side Form Autosave & Session Keep-Alive**: Prevents form data loss with minimal client-side changes, improving form completion rates before tackling core infrastructure.
 4. **Sticky Passenger Preferences**: Resolves seat allocation transparency with low-effort validation checks before payment integration begins.
 5. **Tatkal Booking Queue Management (Virtual Waiting Room)**: Highly critical for system survival during peak hours, but requires dedicated sprint time for setup and load testing.
 6. **Unified Interactive Refund Timeline Tracker**: High impact for customer support, but placed last due to heavy dependencies on external payment gateway webhooks.
